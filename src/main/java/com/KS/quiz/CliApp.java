@@ -62,34 +62,50 @@ public class CliApp {
 
             Question q = questions.get(0);
 
-            System.out.printf("What does %s mean?\n", q.getTerm());
-            System.out.println();
-            System.out.printf("A: %s\n", q.getOptionA());
-            System.out.printf("B: %s\n", q.getOptionB());
-            System.out.printf("C: %s\n", q.getOptionC());
-            System.out.printf("D: %s\n", q.getOptionD());
-            System.out.println();
-
-            System.out.print("Type your answer: ");
-            String selection = scanner.nextLine();
-//            System.out.println(selection);
-
-            // a variable that can point to one of the enums A,B,C or D
             Option selectedOption;
 
-            try{
-                // try to match selection to one of the available enums
-                selectedOption = Option.valueOf(selection);
-            } catch(IllegalArgumentException e){
-                //if can't find a match, throw an error
-                System.out.println("Invalid input. Please enter A, B, C, or D.");
-                return;
+
+
+            while(true){
+                System.out.printf("What does %s mean?\n", q.getTerm());
+                System.out.println();
+                System.out.printf("A: %s\n", q.getOptionA());
+                System.out.printf("B: %s\n", q.getOptionB());
+                System.out.printf("C: %s\n", q.getOptionC());
+                System.out.printf("D: %s\n", q.getOptionD());
+                System.out.println();
+
+
+
+
+
+                System.out.print("Type your answer: ");
+                String selection = scanner.nextLine();
+//            System.out.println(selection);
+
+                // a variable that can point to one of the enums A,B,C or D
+
+
+                try{
+                    // try to match selection to one of the available enums
+                    selectedOption = Option.valueOf(selection);
+                    break;
+                    //we have got a valid selection. Break out of while loop
+                } catch(IllegalArgumentException e){
+                    //if can't find a match, throw an error
+                    System.out.println("******************************************");
+                    System.out.println("Invalid input. Please enter A, B, C, or D.");
+                    System.out.println("******************************************");
+
+                }
             }
 
             boolean isCorrectAnswer = q.isCorrect(selectedOption);
 
             if(isCorrectAnswer){
+                System.out.println("********");
                 System.out.println("CORRECT!");
+                System.out.println("********");
             } else {
                 System.out.println("NOT QUITE!");
             }

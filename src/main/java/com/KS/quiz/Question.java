@@ -44,7 +44,7 @@ public class Question {
         return this.optionD;
     }
 
-    public String getCorrectOption() {
+    public Option getCorrectOption() {
         return this.correctOption;
     }
 

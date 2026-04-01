@@ -1,8 +1,8 @@
 Allegro,fast,slow,medium,very slow,A,TEMPO
 Largo,fast,slow,medium,very fast,B,TEMPO
-Andante,medium,fast,slow,very fast,TEMPO
-Presto,slow,very fast,very slow,medium,TEMPO
-Adagio,fast,very fast,slow,very slow, TEMPO
-Moderato,fast,slow,very slow,medium, TEMPO
+Andante,medium,fast,slow,very fast,A,TEMPO
+Presto,slow,very fast,very slow,medium,B,TEMPO
+Adagio,fast,very fast,slow,medium,C,TEMPO
+Moderato,fast,slow,very slow,medium,D,TEMPO
 Forte,soft,very loud,loud,medium loud,C,DYNAMICS
 Piano,loud,medium loud,soft,medium loud,C,DYNAMICS
