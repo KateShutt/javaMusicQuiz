@@ -6,3 +6,7 @@ Adagio,fast,very fast,slow,medium,C,TEMPO
 Moderato,fast,slow,very slow,medium,D,TEMPO
 Forte,soft,very loud,loud,medium loud,C,DYNAMICS
 Piano,loud,medium loud,soft,medium loud,C,DYNAMICS
+mezzo forte,medium loud,soft,quiet,very loud,A,DYNAMICS
+fortissimo,loud,very loud,quiet,very quiet,B,DYNAMICS
+mezzo piano,soft,loud,very loud,medium quiet,D, DYNAMICS
+pianissimo,soft,loud,very quiet,very loud, C,DYNAMICS
