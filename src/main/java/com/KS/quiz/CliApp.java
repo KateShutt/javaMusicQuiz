@@ -26,9 +26,16 @@ public class CliApp {
 
         List<Question> questions =  loadQuestions();
 
+        if (questions.isEmpty()){
+            System.out.println("no questions were loaded");
+            return;
+        }
+
 
         numOfQuestions = questions.size();
         System.out.println("num of questions is " + numOfQuestions);
+
+
 
         Random random = new Random();
 
@@ -54,43 +61,11 @@ public class CliApp {
                 // testing to see if question is removed from the arraylist
                 //System.out.println(questions.size()+ " questions left to ask");
 
-                Option selectedOption;
-
-
-
-                while(true){
-                    System.out.printf("What does %s mean?\n", q.getTerm());
-                    System.out.println();
-                    System.out.printf("A: %s\n", q.getOptionA());
-                    System.out.printf("B: %s\n", q.getOptionB());
-                    System.out.printf("C: %s\n", q.getOptionC());
-                    System.out.printf("D: %s\n", q.getOptionD());
-                    System.out.println();
+                Option selectedOption = askQuestion(q,scanner);
 
 
 
 
-
-                    System.out.print("Type your answer: ");
-                    String selection = scanner.nextLine().toUpperCase();
-//            System.out.println(selection);
-
-                    // a variable that can point to one of the enums A,B,C or D
-
-
-                    try{
-                        // try to match selection to one of the available enums
-                        selectedOption = Option.valueOf(selection);
-                        break;
-                        //we have got a valid selection. Break out of while loop
-                    } catch(IllegalArgumentException e){
-                        //if can't find a match, throw an error
-                        System.out.println("******************************************");
-                        System.out.println("Invalid input. Please enter A, B, C, or D.");
-                        System.out.println("******************************************");
-
-                    }
-                }
 
                 boolean isCorrectAnswer = q.isCorrect(selectedOption);
 
@@ -187,6 +162,48 @@ public class CliApp {
 
 
     }
+
+    public static Option askQuestion(Question q, Scanner scanner ){
+
+        Option selectedOption;
+
+        while(true){
+            System.out.printf("What does %s mean?\n", q.getTerm());
+            System.out.println();
+            System.out.printf("A: %s\n", q.getOptionA());
+            System.out.printf("B: %s\n", q.getOptionB());
+            System.out.printf("C: %s\n", q.getOptionC());
+            System.out.printf("D: %s\n", q.getOptionD());
+            System.out.println();
+
+
+
+
+
+            System.out.print("Type your answer: ");
+            String selection = scanner.nextLine().toUpperCase().trim();
+//            System.out.println(selection);
+
+            // a variable that can point to one of the enums A,B,C or D
+
+
+            try{
+                // try to match selection to one of the available enums
+                selectedOption = Option.valueOf(selection);
+                return selectedOption;
+                //we have got a valid selection. Break out of while loop
+            } catch(IllegalArgumentException e){
+                //if can't find a match, throw an error
+                System.out.println("******************************************");
+                System.out.println("Invalid input. Please enter A, B, C, or D.");
+                System.out.println("******************************************");
+
+            }
+        }
+
+    }
+
+    
 
 
 }
