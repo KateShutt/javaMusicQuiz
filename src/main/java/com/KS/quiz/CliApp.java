@@ -15,16 +15,19 @@ public class CliApp {
 
         Scanner scanner = new Scanner(System.in);
 
-
-
-
-
         int score = 0;
 
         int numOfQuestions;
 
+        System.out.println("**********************");
+        System.out.println("MUSIC TERMINOLOGY QUIZ");
+        System.out.println("**********************");
 
-        List<Question> questions =  loadQuestions();
+        Category chosenCategory = chooseCategory(scanner);
+
+        System.out.println("chosen category is " + chosenCategory);
+
+        List<Question> questions =  loadQuestions(chosenCategory);
 
         if (questions.isEmpty()){
             System.out.println("no questions were loaded");
@@ -34,10 +37,6 @@ public class CliApp {
 
         numOfQuestions = questions.size();
 //        System.out.println("num of questions is " + numOfQuestions);
-
-        System.out.println("**********************");
-        System.out.println("MUSIC TERMINOLOGY QUIZ");
-        System.out.println("**********************");
 
 
         Random random = new Random();
@@ -104,7 +103,7 @@ public class CliApp {
 
     }
 
-    public static List<Question> loadQuestions() {
+    public static List<Question> loadQuestions(Category chosenCategory) {
 
         List<Question> questions = new ArrayList<>();
 
@@ -139,12 +138,26 @@ public class CliApp {
 
                 // checks that the question has the correct number of parts
                 if (parts.length != 7) {
-                    System.out.println("Invalid line: " + line);
+                    System.out.println("Invalid line (wrong no of fields) in line " + line);
                     continue;
                 }
-                Question question = new Question(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
 
-                questions.add(question);
+                Category category;
+
+                try {
+                    category = Category.valueOf(parts[6].toUpperCase().trim());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid category: " + parts[6] + " in line " + line);
+                    continue;
+                }
+
+                if(category == chosenCategory){
+                    Question question = new Question(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], category);
+
+                    questions.add(question);
+                }
+
+
 
             }
 //            To check that questions have successfully loaded
@@ -207,6 +220,27 @@ public class CliApp {
 
             }
         }
+
+    }
+
+    public static Category chooseCategory(Scanner scanner){
+
+        System.out.println("1: TEMPO");
+        System.out.println("2. DYNAMICS");
+        System.out.println();
+        System.out.print("Choose a category for the quiz: ");
+
+        String chosenCategory = scanner.nextLine().trim();
+
+        while(true){
+            switch(chosenCategory){
+                case "1": return Category.TEMPO;
+                case "2": return Category.DYNAMICS;
+                default:
+                    System.out.println("Invalid input. Please enter 1 or 2");
+            }
+        }
+
 
     }
 
