@@ -15,71 +15,16 @@ public class CliApp {
 
         Scanner scanner = new Scanner(System.in);
 
-        String line;
 
-        List<Question> questions = new ArrayList<>();
+
+
 
         int score = 0;
 
         int numOfQuestions;
 
-        InputStream inputStream = CliApp.class
-                .getClassLoader()
-                .getResourceAsStream("questions.csv");
 
-        if (inputStream == null) {
-            System.out.println("File not found!");
-            return;
-        }
-
-
-
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));) {
-
-            // checks the file path is valid
-            //System.out.println(CliApp.class.getClassLoader().getResource("questions.csv"));
-
-
-            // loads questions.csv from the resources folder and saves as inputStream
-
-
-            // allows java to read the input stream line by line
-
-
-
-
-            while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
-                String[] parts = line.split(",");
-                //System.out.println(parts[0]);
-
-                // checks that the question has the correct number of parts
-                if (parts.length != 7) {
-                    System.out.println("Invalid line: " + line);
-                    continue;
-                }
-                Question question = new Question(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
-
-                questions.add(question);
-
-            }
-//            To check that questions have successfully loaded
-//            System.out.println("Total questions loaded: " + questions.size());
-
-            if (questions.isEmpty()) {
-                System.out.println("No questions were loaded.");
-                return;
-            }
-
-        } catch (Exception e) {
-            System.out.println("An error occurred while rUNNING THE QUIZ.");
-
-            // debug info (can remove later)
-            System.err.println("DEBUG: " + e.getMessage());
-
-
-        }
-
+        List<Question> questions =  loadQuestions();
 
 
         numOfQuestions = questions.size();
@@ -176,6 +121,73 @@ public class CliApp {
     scanner.close();
 
     }
+
+    public static List<Question> loadQuestions() {
+
+        List<Question> questions = new ArrayList<>();
+
+        String line;
+
+        InputStream inputStream = CliApp.class
+                .getClassLoader()
+                .getResourceAsStream("questions.csv");
+
+        if (inputStream == null) {
+            System.out.println("File not found!");
+            return new ArrayList<>();
+        }
+
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+
+            // checks the file path is valid
+            //System.out.println(CliApp.class.getClassLoader().getResource("questions.csv"));
+
+
+            // loads questions.csv from the resources folder and saves as inputStream
+
+
+            // allows java to read the input stream line by line
+
+
+            while ((line = reader.readLine()) != null) {
+                //System.out.println(line);
+                String[] parts = line.split(",");
+                //System.out.println(parts[0]);
+
+                // checks that the question has the correct number of parts
+                if (parts.length != 7) {
+                    System.out.println("Invalid line: " + line);
+                    continue;
+                }
+                Question question = new Question(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
+
+                questions.add(question);
+
+            }
+//            To check that questions have successfully loaded
+//            System.out.println("Total questions loaded: " + questions.size());
+
+            if (questions.isEmpty()) {
+                System.out.println("No questions were loaded.");
+                return new ArrayList<>();
+            }
+
+            return questions;
+
+        } catch (Exception e) {
+            System.out.println("An error occurred while rUNNING THE QUIZ.");
+
+            // debug info (can remove later)
+            System.err.println("DEBUG: " + e.getMessage());
+
+            return new ArrayList<>();
+
+        }
+
+
+    }
+
 
 }
 
