@@ -12,12 +12,6 @@ user input validation.
 
 ## 🎬 Demo
 
-### Quick preview
-
-![Quiz Demo](./demo/demo.gif)
-
-### Full video
-
 [Watch full demo](./demo/musicTheoryVid.mp4)
 
 ---
