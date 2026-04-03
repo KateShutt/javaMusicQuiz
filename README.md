@@ -39,11 +39,11 @@ user input validation.
 
 ## 📁 Project Structure
 
-TheoryQuiz/
+`TheoryQuiz/
 ├── .git/
 ├── demo/
 ├── src/
-├── README.md
+├── README.md`
 
 ## ▶️ How to Run
 
