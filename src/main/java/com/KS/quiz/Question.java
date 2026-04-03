@@ -8,9 +8,9 @@ public class Question {
     private String optionC;
     private String optionD;
     private Option correctOption;
-    private String category;
+    private Category category;
 
-    public Question(String term, String optionA, String optionB, String optionC, String optionD, String correctOption, String category){
+    public Question(String term, String optionA, String optionB, String optionC, String optionD, String correctOption, Category category){
         this.term = term;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -48,7 +48,7 @@ public class Question {
         return this.correctOption;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return this.category;
     }
 }

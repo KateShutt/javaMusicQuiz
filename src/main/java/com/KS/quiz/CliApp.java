@@ -15,80 +15,67 @@ public class CliApp {
 
         Scanner scanner = new Scanner(System.in);
 
-
-
-
-
         int score = 0;
 
         int numOfQuestions;
 
+        System.out.println("**********************");
+        System.out.println("MUSIC TERMINOLOGY QUIZ");
+        System.out.println("**********************");
 
-        List<Question> questions =  loadQuestions();
+        Category chosenCategory = chooseCategory(scanner);
 
-        if (questions.isEmpty()){
+        System.out.println("chosen category is " + chosenCategory);
+        System.out.println();
+
+        List<Question> questions = loadQuestions(chosenCategory);
+
+        if (questions.isEmpty()) {
             System.out.println("no questions were loaded");
             return;
         }
 
 
         numOfQuestions = questions.size();
-//        System.out.println("num of questions is " + numOfQuestions);
-
-        System.out.println("**********************");
-        System.out.println("MUSIC TERMINOLOGY QUIZ");
-        System.out.println("**********************");
-
+//      System.out.println("num of questions is " + numOfQuestions);
 
         Random random = new Random();
 
-            while(!questions.isEmpty()){
-                // move all question logic in here so that we keep asking questions till we have asked them all
+        while (!questions.isEmpty()) {
 
-                //System.out.println("loop is working");
+            int randomNum = random.nextInt(0, questions.size());
 
+            //System.out.println("random num is " + randomNum);
 
+            Question q = questions.get(randomNum);
 
-                int randomNum = random.nextInt(0, questions.size());
+            //checking to see how many questions are in the list before removing question
+            //System.out.println(questions.size()+ " questions to choose from");
 
-                //System.out.println("random num is " + randomNum);
+            questions.remove(randomNum);
 
-                Question q = questions.get(randomNum);
+            // testing to see if question is removed from the arraylist
+            //System.out.println(questions.size()+ " questions left to ask");
 
-                //checking to see how many questions are in the list before removing question
+            Option selectedOption = askQuestion(q, scanner);
 
-                //System.out.println(questions.size()+ " questions to choose from");
+            boolean isCorrectAnswer = q.isCorrect(selectedOption);
 
-                questions.remove(randomNum);
-
-                // testing to see if question is removed from the arraylist
-                //System.out.println(questions.size()+ " questions left to ask");
-
-                Option selectedOption = askQuestion(q,scanner);
-
-
-
-
-
-                boolean isCorrectAnswer = q.isCorrect(selectedOption);
-
-                if(isCorrectAnswer){
-                    System.out.println("********");
-                    System.out.println("CORRECT!");
-                    System.out.println("********");
-                    System.out.println();
-                    score++;
-                } else {
-                    System.out.println("********");
-                    System.out.println("NOT QUITE!");
-                    System.out.println("********");
-                    System.out.println("The correct answer was " + q.getCorrectOption());
-                    System.out.println();
-                }
-
+            if (isCorrectAnswer) {
+                System.out.println("********");
+                System.out.println("CORRECT!");
+                System.out.println("********");
+                System.out.println();
+                score++;
+            } else {
+                System.out.println("********");
+                System.out.println("NOT QUITE!");
+                System.out.println("********");
+                System.out.println("The correct answer was " + q.getCorrectOption());
+                System.out.println();
             }
 
-
+        }
 
         System.out.println("********");
         System.out.println("END OF QUIZ!");
@@ -96,15 +83,11 @@ public class CliApp {
         System.out.println("********");
 
 
-
-
-
-
-    scanner.close();
+        scanner.close();
 
     }
 
-    public static List<Question> loadQuestions() {
+    public static List<Question> loadQuestions(Category chosenCategory) {
 
         List<Question> questions = new ArrayList<>();
 
@@ -125,13 +108,6 @@ public class CliApp {
             // checks the file path is valid
             //System.out.println(CliApp.class.getClassLoader().getResource("questions.csv"));
 
-
-            // loads questions.csv from the resources folder and saves as inputStream
-
-
-            // allows java to read the input stream line by line
-
-
             while ((line = reader.readLine()) != null) {
                 //System.out.println(line);
                 String[] parts = line.split(",");
@@ -139,12 +115,24 @@ public class CliApp {
 
                 // checks that the question has the correct number of parts
                 if (parts.length != 7) {
-                    System.out.println("Invalid line: " + line);
+                    System.out.println("Invalid line (wrong no of fields) in line " + line);
                     continue;
                 }
-                Question question = new Question(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
 
-                questions.add(question);
+                Category category;
+
+                try {
+                    category = Category.valueOf(parts[6].toUpperCase().trim());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid category: " + parts[6] + " in line " + line);
+                    continue;
+                }
+
+                if (category == chosenCategory) {
+                    Question question = new Question(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], category);
+
+                    questions.add(question);
+                }
 
             }
 //            To check that questions have successfully loaded
@@ -158,7 +146,7 @@ public class CliApp {
             return questions;
 
         } catch (Exception e) {
-            System.out.println("An error occurred while rUNNING THE QUIZ.");
+            System.out.println("An error occurred while running THE QUIZ.");
 
             // debug info (can remove later)
             System.err.println("DEBUG: " + e.getMessage());
@@ -167,14 +155,13 @@ public class CliApp {
 
         }
 
-
     }
 
-    public static Option askQuestion(Question q, Scanner scanner ){
+    public static Option askQuestion(Question q, Scanner scanner) {
 
         Option selectedOption;
 
-        while(true){
+        while (true) {
             System.out.printf("What does %s mean?\n", q.getTerm());
             System.out.println();
             System.out.printf("A: %s\n", q.getOptionA());
@@ -184,22 +171,16 @@ public class CliApp {
             System.out.println();
 
 
-
-
-
             System.out.print("Type your answer: ");
             String selection = scanner.nextLine().toUpperCase().trim();
 //            System.out.println(selection);
 
-            // a variable that can point to one of the enums A,B,C or D
-
-
-            try{
+            try {
                 // try to match selection to one of the available enums
                 selectedOption = Option.valueOf(selection);
                 return selectedOption;
                 //we have got a valid selection. Break out of while loop
-            } catch(IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 //if can't find a match, throw an error
                 System.out.println("******************************************");
                 System.out.println("Invalid input. Please enter A, B, C, or D.");
@@ -210,8 +191,33 @@ public class CliApp {
 
     }
 
+    public static Category chooseCategory(Scanner scanner) {
 
 
+        while (true) {
+
+            System.out.println("1: TEMPO");
+            System.out.println("2. DYNAMICS");
+            System.out.println();
+            System.out.print("Choose a category for the quiz: ");
+
+            String chosenCategory = scanner.nextLine().trim();
+
+            switch (chosenCategory) {
+                case "1":
+                    return Category.TEMPO;
+                case "2":
+                    return Category.DYNAMICS;
+                default:
+                    System.out.println("**********************************");
+                    System.out.println("Invalid input. Please enter 1 or 2");
+                    System.out.println("**********************************");
+                    System.out.println();
+            }
+        }
+
+
+    }
 
 }
 
