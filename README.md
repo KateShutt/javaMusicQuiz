@@ -12,7 +12,7 @@ user input validation.
 
 ## 🎬 Demo
 
-[Watch full demo](./demo/musicTheoryVid.mp4)
+[Watch demo on YouTube] https://www.youtube.com/watch?v=cvQxc9d3LB8
 
 ---
 
