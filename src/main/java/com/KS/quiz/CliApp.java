@@ -33,8 +33,11 @@ public class CliApp {
 
 
         numOfQuestions = questions.size();
-        System.out.println("num of questions is " + numOfQuestions);
+//        System.out.println("num of questions is " + numOfQuestions);
 
+        System.out.println("**********************");
+        System.out.println("MUSIC TERMINOLOGY QUIZ");
+        System.out.println("**********************");
 
 
         Random random = new Random();
@@ -73,10 +76,14 @@ public class CliApp {
                     System.out.println("********");
                     System.out.println("CORRECT!");
                     System.out.println("********");
+                    System.out.println();
                     score++;
                 } else {
+                    System.out.println("********");
                     System.out.println("NOT QUITE!");
+                    System.out.println("********");
                     System.out.println("The correct answer was " + q.getCorrectOption());
+                    System.out.println();
                 }
 
             }
@@ -203,7 +210,7 @@ public class CliApp {
 
     }
 
-    
+
 
 
 }
