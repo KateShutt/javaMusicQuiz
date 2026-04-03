@@ -12,7 +12,7 @@ user input validation.
 
 ## 🎬 Demo
 
-[Watch demo on YouTube] https://www.youtube.com/watch?v=cvQxc9d3LB8
+[Watch demo on YouTube](https://www.youtube.com/watch?v=cvQxc9d3LB8)
 
 ---
 
